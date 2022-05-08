@@ -1,4 +1,4 @@
 package n2k_.ntractpoint.base;
-public interface IInitiliazible {
+public interface IInitializable {
     void init();
 }
