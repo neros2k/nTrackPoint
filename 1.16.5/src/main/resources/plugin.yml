@@ -1,0 +1,7 @@
+name: nTrackPoint
+version: '${project.version}'
+main: n2k_.ntractpoint.nTrackPoint
+api-version: 1.16
+depend: [ JSONConfigAPI ]
+authors: [ n2k_ ]
+website: github.com/neros2k/nTrackPoint
