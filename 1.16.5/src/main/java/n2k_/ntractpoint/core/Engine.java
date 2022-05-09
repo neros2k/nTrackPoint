@@ -59,7 +59,7 @@ public class Engine implements IEngine {
     }
     @Override
     public void timerExecute() {
-        if(!this.TIMER_BLOCK) {
+        if(this.TIMER_BLOCK != null && !this.TIMER_BLOCK) {
             this.TIMER_BLOCK = true;
             this.TIMER_TASK = Bukkit.getScheduler().runTaskLater(
                     this.getInteractor().getPlugin(),
