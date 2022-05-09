@@ -1,7 +1,9 @@
 package n2k_.ntractpoint.core;
 import n2k_.ntractpoint.base.IEngine;
 import n2k_.ntractpoint.base.IInteractor;
+import n2k_.ntractpoint.base.ILine;
 import n2k_.ntractpoint.base.model.PointModel;
+import n2k_.ntractpoint.utils.Line;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -77,30 +79,13 @@ public class Engine implements IEngine {
                 this.PLAYER.getWorld(), POINT.X, POINT.Y, POINT.Z
         );
         Location LOCATION = this.PLAYER.getLocation();
-        String STR = "[-]";
+        ILine LINE = new Line(this.INTERACTOR.getModel());
         if(POINT_LOCATION.distance(LOCATION) > POINT.RADIUS) {
-            Vector SUBTRACT = POINT_LOCATION.toVector().subtract(LOCATION.toVector()).normalize();
-            Vector DIRECTION = LOCATION.getDirection();
-            double ANGLE = Math.toDegrees(Math.acos(SUBTRACT.dot(DIRECTION)));
-            if(ANGLE < 180) {
-                if(ANGLE < 15) {
-                    STR = "ВПЕРЕД";
-                } else if(ANGLE < 45) {
-                    STR = "В СТОРОНУ";
-                } else {
-                    STR = "ПОВОРОТ";
-                }
-            } else {
-                if(ANGLE > 345) {
-                    STR = "ВПЕРЕД";
-                } else if(ANGLE > 315) {
-                    STR = "В СТОРОНУ";
-                } else {
-                    STR = "ПОВОРОТ";
-                }
-            }
+            LINE.update(POINT_LOCATION, LOCATION);
         }
-        this.PLAYER.sendMessage(STR);
+        LINE.sendActionBar(this.PLAYER);
+        LINE.sendBossBar(this.PLAYER);
+        LINE.sendMessage(this.PLAYER);
     }
     @Override
     public Player getPlayer() {
