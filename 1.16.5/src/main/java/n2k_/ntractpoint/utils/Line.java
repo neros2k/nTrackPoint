@@ -33,12 +33,12 @@ public class Line implements ILine {
         PLAYER.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(LINE));
     }
     @Override
-    public void sendBossBar(Player PLAYER) {
-
-    }
-    @Override
     public void sendMessage(@NotNull Player PLAYER) {
         PLAYER.sendMessage(LINE);
+    }
+    @Override
+    public String get() {
+        return this.LINE;
     }
     @NotNull
     private String replace(@NotNull String STR, String DISTANCE) {

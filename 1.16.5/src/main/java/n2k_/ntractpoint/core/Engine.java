@@ -8,6 +8,9 @@ import n2k_.ntractpoint.utils.Line;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Server;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.Nullable;
@@ -19,18 +22,21 @@ public class Engine implements IEngine {
     private final List<Location> PASSING_LIST;
     private final Player PLAYER;
     private final IInteractor INTERACTOR;
+    private BossBar BOSSBAR;
     private PointModel ENTERED_POINT;
     private BukkitTask TICK_TASK;
     private BukkitTask TIMER_TASK;
     private Boolean TIMER_BLOCK;
+    private Boolean STARTED_BOSSBAR;
     public Engine(Player PLAYER, IInteractor INTERACTOR) {
         this.PASSING_LIST = new ArrayList<>();
         this.PLAYER = PLAYER;
         this.INTERACTOR = INTERACTOR;
+        this.STARTED_BOSSBAR = false;
     }
     @Override
     public void init() {
-
+        this.BOSSBAR = PLAYER.getServer().createBossBar("...", BarColor.BLUE, BarStyle.SEGMENTED_6);
     }
     @Override
     public void start() {
@@ -40,6 +46,8 @@ public class Engine implements IEngine {
     @Override
     public void stop() {
         this.TICK_TASK.cancel();
+        this.STARTED_BOSSBAR = false;
+        this.BOSSBAR.removeAll();
     }
     @Override
     public void tick() {
@@ -91,11 +99,15 @@ public class Engine implements IEngine {
         if(MODEL.ENABLE_PASSING) {
             Arrays.stream(MODEL.INTERACT_ACTIONS).forEach(ACTION -> {
                 switch(ACTION.TYPE) {
-                    case "COMMAND" -> {
+                    case "COMMAND": {
                         Server SERVER = this.INTERACTOR.getPlugin().getServer();
                         SERVER.dispatchCommand(SERVER.getConsoleSender(), ACTION.CONTENT);
+                        break;
                     }
-                    case "MESSAGE" -> this.PLAYER.sendMessage(ACTION.CONTENT);
+                    case "MESSAGE": {
+                        this.PLAYER.sendMessage(ACTION.CONTENT);
+                        break;
+                    }
                 }
             });
             this.PASSING_LIST.add(POINT_LOCATION);
@@ -124,18 +136,34 @@ public class Engine implements IEngine {
             Location LOCATION = this.PLAYER.getLocation();
             double DISTANCE = POINT_LOCATION.distance(LOCATION);
             String FORMAT_DISTANCE = String.format(MODEL.DISTANCE_FORMAT, DISTANCE);
-            LINE = new Line(MODEL, this.INTERACTOR.getPlugin(), FORMAT_DISTANCE);
+            LINE = new Line(MODEL, FORMAT_DISTANCE);
             if(DISTANCE > POINT.RADIUS) {
                 LINE.update(POINT_LOCATION, LOCATION, FORMAT_DISTANCE);
+                this.BOSSBAR.setColor(BarColor.BLUE);
+            } else {
+                this.BOSSBAR.setColor(BarColor.GREEN);
             }
         } else {
-            LINE = new Line(this.INTERACTOR.getModel(), this.INTERACTOR.getPlugin(), "0");
+            LINE = new Line(this.INTERACTOR.getModel(), "0");
         }
         Arrays.stream(MODEL.COMPASS_MESSAGE_TYPES).forEach(TYPE -> {
             switch(TYPE) {
-                case "ACTION_BAR" -> LINE.sendActionBar(PLAYER);
-                case "BOSS_BAR" -> LINE.sendBossBar(PLAYER);
-                case "MESSAGE" -> LINE.sendMessage(PLAYER);
+                case "ACTION_BAR": {
+                    LINE.sendActionBar(PLAYER);
+                    break;
+                }
+                case "BOSS_BAR": {
+                    BOSSBAR.setTitle(LINE.get());
+                    if(!this.STARTED_BOSSBAR) {
+                        BOSSBAR.addPlayer(PLAYER);
+                        this.STARTED_BOSSBAR = true;
+                    }
+                    break;
+                }
+                case "MESSAGE": {
+                    LINE.sendMessage(PLAYER);
+                    break;
+                }
             }
         });
     }
