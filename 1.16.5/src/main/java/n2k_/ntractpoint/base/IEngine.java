@@ -6,6 +6,7 @@ public interface IEngine extends IInitializable {
     void stop();
     void tick();
     void timerExecute(Location POINT_LOCATION);
+    void cancelTimer(PointModel POINT_MODEL);
     void interact(Location POINT_LOCATION);
     void sendCompass(PointModel POINT);
 }

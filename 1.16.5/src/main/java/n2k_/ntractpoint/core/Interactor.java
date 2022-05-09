@@ -21,9 +21,7 @@ public class Interactor implements IInteractor {
         this.PRESENTER_LIST = new ArrayList<>();
         this.ENGINE_MAP = new HashMap<>();
         this.PLUGIN = PLUGIN;
-        this.PRESENTER_LIST.addAll(List.of(
-                new EventPresenter(this)
-        ));
+        this.PRESENTER_LIST.add(new EventPresenter(this));
     }
     @Override
     public void init() {

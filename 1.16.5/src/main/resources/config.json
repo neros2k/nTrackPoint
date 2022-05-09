@@ -3,7 +3,10 @@
   "DISTANCE_FORMAT": "%.1f",
   "ENABLE_PASSING": true,
   "CLEAR_PASSING_VALUE": "ALL",
-  "PASSING_COMMAND": "",
+  "INTERACT_ACTIONS": [
+    {"TYPE": "COMMAND", "CONTENT": "say Command from interaction"}
+  ],
+  "COMPASS_MESSAGE_TYPES": ["BOSS_BAR"],
   "COMPASS_DEFAULT_FORMAT": "§a§l_╲ ┃ ╱_ §7| §b{DISTANCE}",
   "COMPASS_INTERVAL_FORMAT": [
     {"INTERVAL": [-15, 0], "FORMAT": "§l_╲ §b§l┃§f§l ╱_ §7| §b{DISTANCE}"},
