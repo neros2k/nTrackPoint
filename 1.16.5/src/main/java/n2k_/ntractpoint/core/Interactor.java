@@ -5,6 +5,7 @@ import n2k_.ntractpoint.base.IInteractor;
 import n2k_.ntractpoint.base.model.ConfigModel;
 import n2k_.ntractpoint.base.model.PointModel;
 import n2k_.ntractpoint.core.presenter.EventPresenter;
+import n2k_.ntractpoint.nTrackPoint;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -55,14 +56,6 @@ public class Interactor implements IInteractor {
     }
     @Override
     public ConfigModel getModel() {
-        // DEBUG
-        ConfigModel MODEL = new ConfigModel();
-        PointModel TEST_POINT = new PointModel();
-        TEST_POINT.X = 10;
-        TEST_POINT.Y = 10;
-        TEST_POINT.Z = 10;
-        MODEL.POINTS = new PointModel[]{TEST_POINT};
-        // DEBUG
-        return MODEL;
+        return ((nTrackPoint) this.getPlugin()).getJsonConfig().getJson();
     }
 }
