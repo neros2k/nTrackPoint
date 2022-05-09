@@ -20,7 +20,6 @@ public class CommandPresenter extends APresenter implements CommandExecutor {
     public void init() {
         PluginCommand COMMAND = super.getInteractor().getPlugin().getCommand("ntp");
         assert COMMAND != null;
-        COMMAND.setAliases(Collections.singletonList("ntrackpoint"));
         COMMAND.setExecutor(this);
     }
     @Override
@@ -31,7 +30,7 @@ public class CommandPresenter extends APresenter implements CommandExecutor {
             return true;
         }
         if(ARGS[0].equals("reload")) {
-            if(SENDER.hasPermission("ntrackpoint.reload")) {
+            if(!SENDER.hasPermission("ntrackpoint.reload")) {
                 SENDER.sendMessage(MODEL.MESSAGES.PERM_ERROR);
                 return true;
             }

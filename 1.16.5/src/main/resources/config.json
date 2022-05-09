@@ -1,5 +1,6 @@
 {
   "PERIOD": 100,
+  "TICK": 1,
   "DISTANCE_FORMAT": "%.1f",
   "ONLY_COMMANDS": true,
   "ENABLE_PASSING": true,
@@ -7,6 +8,11 @@
   "INTERACT_ACTIONS": [
     {"TYPE": "COMMAND", "CONTENT": "say Command from interaction"}
   ],
+  "BOSS_BAR_STYLE": "SEGMENTED_6",
+  "BOSS_BAR_COLOR_DEFAULT": "BLUE",
+  "BOSS_BAR_COLOR_ENTERED": "GREEN",
+  "BOSS_BAR_PROGRESS_DIVISOR": 100,
+  "ENABLED_WORLDS": ["world"],
   "COMPASS_MESSAGE_TYPES": ["BOSS_BAR"],
   "COMPASS_DEFAULT_FORMAT": "§a§l_╲ ┃ ╱_ §7| §b{DISTANCE}",
   "COMPASS_INTERVAL_FORMAT": [
@@ -16,10 +22,6 @@
     {"INTERVAL": [0, 15], "FORMAT": "§l_╲ §b§l┃§f§l ╱_ §7| §b{DISTANCE}"},
     {"INTERVAL": [15, 90], "FORMAT": "§l_§b§l╲§f§l ┃ ╱_ §7| §b{DISTANCE}"},
     {"INTERVAL": [90, 180], "FORMAT": "§b§l_§f§l╲ ┃ ╱_ §7| §b{DISTANCE}"}
-  ],
-  "DEFAULT_POINTS": [
-    {"X": 10, "Y": 10, "Z": 10, "RADIUS": 10},
-    {"X": 25, "Y": 10, "Z": 25, "RADIUS": 10}
   ],
   "MESSAGES": {
     "PERM_ERROR": "§c▪§f Error. Not enough permissions.",
@@ -39,5 +41,9 @@
       "§f§l[§b▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰§f§l]",
       ""
     ]
-  }
+  },
+  "POINTS": [
+    {"X": 10, "Y": 10, "Z": 10, "RADIUS": 10},
+    {"X": 25, "Y": 10, "Z": 25, "RADIUS": 10}
+  ]
 }

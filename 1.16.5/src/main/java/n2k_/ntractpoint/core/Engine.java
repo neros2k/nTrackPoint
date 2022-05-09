@@ -38,13 +38,17 @@ public class Engine implements IEngine {
     }
     @Override
     public void init() {
-        this.BOSSBAR = PLAYER.getServer().createBossBar("...", BarColor.BLUE, BarStyle.SEGMENTED_6);
+        ConfigModel MODEL = this.INTERACTOR.getModel();
+        this.BOSSBAR = PLAYER.getServer().createBossBar("...",
+                BarColor.valueOf(MODEL.BOSS_BAR_COLOR_DEFAULT),
+                BarStyle.valueOf(MODEL.BOSS_BAR_STYLE));
     }
     @Override
     public void start() {
         if(!this.STARTED) {
             this.TICK_TASK = Bukkit.getScheduler()
-                    .runTaskTimerAsynchronously(this.INTERACTOR.getPlugin(), this::tick, 0L, 5L);
+                    .runTaskTimerAsynchronously(this.INTERACTOR.getPlugin(), this::tick, 0L,
+                                                this.INTERACTOR.getModel().TICK);
             this.STARTED = true;
         }
     }
@@ -62,14 +66,16 @@ public class Engine implements IEngine {
         AtomicReference<Double> LAST_LEAST_DISTANCE = new AtomicReference<>(null);
         AtomicReference<PointModel> LEAST_POINT = new AtomicReference<>(null);
         ConfigModel MODEL = this.INTERACTOR.getModel();
-        Arrays.stream(MODEL.DEFAULT_POINTS).forEach(POINT -> {
+        if(!Arrays.asList(MODEL.ENABLED_WORLDS).contains(this.PLAYER.getWorld().getName())) {
+            return;
+        }
+        Arrays.stream(MODEL.POINTS).forEach(POINT -> {
             Location POINT_LOCATION = new Location(
                     this.PLAYER.getWorld(), POINT.X, POINT.Y, POINT.Z
             );
             double DISTANCE = POINT_LOCATION.distance(this.PLAYER.getLocation());
             if(!this.PASSING_LIST.contains(POINT_LOCATION)) {
                 if(DISTANCE < POINT.RADIUS) {
-                    PLAYER.sendMessage("TIMER");
                     this.ENTERED_POINT = POINT;
                     this.timerExecute(POINT_LOCATION);
                 } else this.cancelTimer(POINT);
@@ -95,7 +101,6 @@ public class Engine implements IEngine {
     @Override
     public void cancelTimer(PointModel POINT_MODEL) {
         if(this.ENTERED_POINT == POINT_MODEL) {
-            PLAYER.sendMessage("CANCEL");
             this.TIMER_BLOCK = false;
             this.ENTERED_POINT = null;
             if(this.TIMER_TASK != null) {
@@ -120,12 +125,11 @@ public class Engine implements IEngine {
                     }
                 }
             });
-            PLAYER.sendMessage("INTERACT");
             this.PASSING_LIST.add(POINT_LOCATION);
             this.TIMER_BLOCK = false;
             boolean CLEAR;
             if(MODEL.CLEAR_PASSING_VALUE.equals("ALL")) {
-                CLEAR = this.PASSING_LIST.size() >= MODEL.DEFAULT_POINTS.length;
+                CLEAR = this.PASSING_LIST.size() >= MODEL.POINTS.length;
             } else if(MODEL.CLEAR_PASSING_VALUE.equals("NONE")) {
                 CLEAR = false;
             } else {
@@ -151,10 +155,12 @@ public class Engine implements IEngine {
             LINE = new Line(MODEL, FORMAT_DISTANCE);
             if(DISTANCE > POINT.RADIUS) {
                 LINE.update(POINT_LOCATION, LOCATION, FORMAT_DISTANCE);
-                this.BOSSBAR.setColor(BarColor.BLUE);
+                this.BOSSBAR.setColor(BarColor.valueOf(MODEL.BOSS_BAR_COLOR_DEFAULT));
             } else {
-                this.BOSSBAR.setColor(BarColor.GREEN);
+                this.BOSSBAR.setColor(BarColor.valueOf(MODEL.BOSS_BAR_COLOR_ENTERED));
             }
+            double PROGRESS = 1.0 - (DISTANCE - POINT.RADIUS)/MODEL.BOSS_BAR_PROGRESS_DIVISOR;
+            this.BOSSBAR.setProgress(Math.min(Math.max(PROGRESS, 0), 1.0));
         } else {
             LINE = new Line(this.INTERACTOR.getModel(), "0");
         }
@@ -165,9 +171,9 @@ public class Engine implements IEngine {
                     break;
                 }
                 case "BOSS_BAR": {
-                    BOSSBAR.setTitle(LINE.get());
+                    this.BOSSBAR.setTitle(LINE.get());
                     if(!this.SEND_BOSSBAR) {
-                        BOSSBAR.addPlayer(PLAYER);
+                        this.BOSSBAR.addPlayer(PLAYER);
                         this.SEND_BOSSBAR = true;
                     }
                     break;
