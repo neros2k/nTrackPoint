@@ -1,10 +1,20 @@
 {
   "PERIOD": 100,
-  "COMPASS_DEFAULT_FORMAT": "[-]",
+  "DISTANCE_FORMAT": "%.1f",
+  "ENABLE_PASSING": true,
+  "CLEAR_PASSING_VALUE": "ALL",
+  "PASSING_COMMAND": "",
+  "COMPASS_DEFAULT_FORMAT": "§a§l_╲ ┃ ╱_ §7| §b{DISTANCE}",
   "COMPASS_INTERVAL_FORMAT": [
-    {"INTERVAL": [0, 15], "FORMAT": "[]"}
+    {"INTERVAL": [-15, 0], "FORMAT": "§l_╲ §b§l┃§f§l ╱_ §7| §b{DISTANCE}"},
+    {"INTERVAL": [-90, -15], "FORMAT": "§l_╲ ┃ §b§l╱§f§l_ §7| §b{DISTANCE}"},
+    {"INTERVAL": [-180, -90], "FORMAT": "§l_╲ ┃ ╱§b§l_ §7| §b{DISTANCE}"},
+    {"INTERVAL": [0, 15], "FORMAT": "§l_╲ §b§l┃§f§l ╱_ §7| §b{DISTANCE}"},
+    {"INTERVAL": [15, 90], "FORMAT": "§l_§b§l╲§f§l ┃ ╱_ §7| §b{DISTANCE}"},
+    {"INTERVAL": [90, 180], "FORMAT": "§b§l_§f§l╲ ┃ ╱_ §7| §b{DISTANCE}"}
   ],
-  "POINTS": [
-    {"X": 10, "Y": 10, "Z": 10, "RADIUS": 10}
+  "DEFAULT_POINTS": [
+    {"X": 10, "Y": 10, "Z": 10, "RADIUS": 10},
+    {"X": 25, "Y": 10, "Z": 25, "RADIUS": 10}
   ]
 }
