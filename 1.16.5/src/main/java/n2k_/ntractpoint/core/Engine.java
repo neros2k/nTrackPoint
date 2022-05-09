@@ -49,10 +49,7 @@ public class Engine implements IEngine {
                     this.TIMER_TASK.cancel();
                 }
             }
-            if(LAST_LEAST_DISTANCE.get() == null) {
-                LAST_LEAST_DISTANCE.set(DISTANCE);
-            }
-            if(LAST_LEAST_DISTANCE.get() > DISTANCE) {
+            if(LAST_LEAST_DISTANCE.get() == null || LAST_LEAST_DISTANCE.get() > DISTANCE) {
                 LAST_LEAST_DISTANCE.set(DISTANCE);
                 LEAST_POINT.set(POINT);
             }
