@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicReference;
@@ -78,7 +79,9 @@ public class Engine implements IEngine {
         Location LOCATION = this.PLAYER.getLocation();
         String STR = "[-]";
         if(POINT_LOCATION.distance(LOCATION) > POINT.RADIUS) {
-            float ANGLE = POINT_LOCATION.toVector().angle(LOCATION.toVector());
+            Vector SUBTRACT = POINT_LOCATION.toVector().subtract(LOCATION.toVector()).normalize();
+            Vector DIRECTION = LOCATION.getDirection();
+            double ANGLE = Math.toDegrees(Math.acos(SUBTRACT.dot(DIRECTION)));
             if(ANGLE < 180) {
                 if(ANGLE < 15) {
                     STR = "ВПЕРЕД";
