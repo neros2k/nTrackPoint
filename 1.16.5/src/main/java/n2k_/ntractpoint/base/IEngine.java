@@ -9,4 +9,5 @@ public interface IEngine extends IInitializable {
     void cancelTimer(PointModel POINT_MODEL);
     void interact(Location POINT_LOCATION);
     void sendCompass(PointModel POINT);
+    Boolean isStarted();
 }

@@ -4,3 +4,12 @@ main: n2k_.ntractpoint.nTrackPoint
 api-version: 1.16
 authors: [ n2k_ ]
 website: github.com/neros2k/nTrackPoint
+commands:
+  ntp:
+    description: Main command
+permissions:
+  ntrackpoint.*:
+    default: op
+    children:
+      - ntrackpoint.use
+      - ntrackpoint.reload

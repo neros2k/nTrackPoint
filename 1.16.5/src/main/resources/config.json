@@ -19,5 +19,24 @@
   "DEFAULT_POINTS": [
     {"X": 10, "Y": 10, "Z": 10, "RADIUS": 10},
     {"X": 25, "Y": 10, "Z": 25, "RADIUS": 10}
-  ]
+  ],
+  "MESSAGES": {
+    "PERM_ERROR": "§c▪§f Error. Not enough permissions.",
+    "UNKNOWN_COMMAND": "§c▪§f Error. Unknown command. Type: /ntp help",
+    "CONSOLE_SENDER_MESSAGE": "§c▪§f Only the user can execute this command.",
+    "RELOAD_COMMAND": "§f§l[§bɴᴛʀᴀᴄᴋᴘᴏɪɴᴛ§f§l]§f Plugin was successfully reloaded.",
+    "START_COMMAND": "§6▪§f You have successfully launched a tracking point.",
+    "STOP_COMMAND": "§6▪§f You have successfully stopped a tracking point.",
+    "HELP_COMMAND": [
+      "",
+      "§f§l[§b▰▰▰▰▰§f§l]§f nTrackPoint v1.0 by neros2k §f§l[§b▰▰▰▰▰§f§l]",
+      "§b►§f Command list:",
+      "§b▪§f /ntp §7(help)§f §b-§f Main command",
+      "§b▪§f /ntp reload §b-§f Reload nTrackPoint",
+      "§b▪§f /ntp start §b-§f Start tracking",
+      "§b▪§f /ntp stop §b-§f Stop tracking",
+      "§f§l[§b▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰§f§l]",
+      ""
+    ]
+  }
 }

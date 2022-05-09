@@ -27,12 +27,14 @@ public class Engine implements IEngine {
     private BukkitTask TICK_TASK;
     private BukkitTask TIMER_TASK;
     private Boolean TIMER_BLOCK;
-    private Boolean STARTED_BOSSBAR;
+    private Boolean SEND_BOSSBAR;
+    private Boolean STARTED;
     public Engine(Player PLAYER, IInteractor INTERACTOR) {
         this.PASSING_LIST = new ArrayList<>();
         this.PLAYER = PLAYER;
         this.INTERACTOR = INTERACTOR;
-        this.STARTED_BOSSBAR = false;
+        this.SEND_BOSSBAR = false;
+        this.STARTED = false;
     }
     @Override
     public void init() {
@@ -40,14 +42,20 @@ public class Engine implements IEngine {
     }
     @Override
     public void start() {
-        this.TICK_TASK = Bukkit.getScheduler()
-            .runTaskTimerAsynchronously(this.INTERACTOR.getPlugin(), this::tick, 0L, 1L);
+        if(!this.STARTED) {
+            this.TICK_TASK = Bukkit.getScheduler()
+                    .runTaskTimerAsynchronously(this.INTERACTOR.getPlugin(), this::tick, 0L, 1L);
+            this.STARTED = true;
+        }
     }
     @Override
     public void stop() {
-        this.TICK_TASK.cancel();
-        this.STARTED_BOSSBAR = false;
-        this.BOSSBAR.removeAll();
+        if(this.STARTED) {
+            this.TICK_TASK.cancel();
+            this.SEND_BOSSBAR = false;
+            this.BOSSBAR.removeAll();
+            this.STARTED = false;
+        }
     }
     @Override
     public void tick() {
@@ -154,9 +162,9 @@ public class Engine implements IEngine {
                 }
                 case "BOSS_BAR": {
                     BOSSBAR.setTitle(LINE.get());
-                    if(!this.STARTED_BOSSBAR) {
+                    if(!this.SEND_BOSSBAR) {
                         BOSSBAR.addPlayer(PLAYER);
-                        this.STARTED_BOSSBAR = true;
+                        this.SEND_BOSSBAR = true;
                     }
                     break;
                 }
@@ -166,5 +174,9 @@ public class Engine implements IEngine {
                 }
             }
         });
+    }
+    @Override
+    public Boolean isStarted() {
+        return this.STARTED;
     }
 }

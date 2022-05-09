@@ -9,4 +9,5 @@ public class ConfigModel {
     public String COMPASS_DEFAULT_FORMAT;
     public IntervalModel[] COMPASS_INTERVAL_FORMAT;
     public PointModel[] DEFAULT_POINTS;
+    public MessagesModel MESSAGES;
 }

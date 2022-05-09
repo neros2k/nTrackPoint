@@ -3,7 +3,6 @@ import n2k_.ntractpoint.base.APresenter;
 import n2k_.ntractpoint.base.IEngine;
 import n2k_.ntractpoint.base.IInteractor;
 import n2k_.ntractpoint.base.model.ConfigModel;
-import n2k_.ntractpoint.base.model.PointModel;
 import n2k_.ntractpoint.core.presenter.EventPresenter;
 import n2k_.ntractpoint.nTrackPoint;
 import org.bukkit.entity.Player;
@@ -45,12 +44,15 @@ public class Interactor implements IInteractor {
         }
     }
     @Override
-    public JavaPlugin getPlugin() {
-        return this.PLUGIN;
+    public IEngine getEngine(@NotNull Player PLAYER) {
+        if(this.ENGINE_MAP.containsKey(PLAYER.getName())) {
+            return this.ENGINE_MAP.get(PLAYER.getName());
+        }
+        return null;
     }
     @Override
-    public Map<String, IEngine> getEngineMap() {
-        return this.ENGINE_MAP;
+    public JavaPlugin getPlugin() {
+        return this.PLUGIN;
     }
     @Override
     public ConfigModel getModel() {
