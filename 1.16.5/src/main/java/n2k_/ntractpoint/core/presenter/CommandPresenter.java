@@ -11,6 +11,7 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
+import java.util.Collections;
 public class CommandPresenter extends APresenter implements CommandExecutor {
     public CommandPresenter(IInteractor INTERACTOR) {
         super(INTERACTOR);
@@ -19,6 +20,7 @@ public class CommandPresenter extends APresenter implements CommandExecutor {
     public void init() {
         PluginCommand COMMAND = super.getInteractor().getPlugin().getCommand("ntp");
         assert COMMAND != null;
+        COMMAND.setAliases(Collections.singletonList("ntrackpoint"));
         COMMAND.setExecutor(this);
     }
     @Override
@@ -38,7 +40,7 @@ public class CommandPresenter extends APresenter implements CommandExecutor {
             return true;
         }
         if(ARGS[0].equals("start")) {
-            if(SENDER.hasPermission("ntrackpoint.use")) {
+            if(!SENDER.hasPermission("ntrackpoint.use")) {
                 SENDER.sendMessage(MODEL.MESSAGES.PERM_ERROR);
                 return true;
             }
@@ -46,7 +48,7 @@ public class CommandPresenter extends APresenter implements CommandExecutor {
                 Player PLAYER = (Player) SENDER;
                 IEngine ENGINE = this.getInteractor().getEngine(PLAYER);
                 if(!ENGINE.isStarted()) {
-                    ENGINE.stop();
+                    ENGINE.start();
                     SENDER.sendMessage(MODEL.MESSAGES.START_COMMAND);
                 } else {
                     SENDER.sendMessage(MODEL.MESSAGES.CONSOLE_SENDER_MESSAGE);
@@ -55,7 +57,7 @@ public class CommandPresenter extends APresenter implements CommandExecutor {
             return true;
         }
         if(ARGS[0].equals("stop")) {
-            if(SENDER.hasPermission("ntrackpoint.stop")) {
+            if(!SENDER.hasPermission("ntrackpoint.stop")) {
                 SENDER.sendMessage(MODEL.MESSAGES.PERM_ERROR);
                 return true;
             }

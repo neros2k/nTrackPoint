@@ -1,6 +1,7 @@
 {
   "PERIOD": 100,
   "DISTANCE_FORMAT": "%.1f",
+  "ONLY_COMMANDS": true,
   "ENABLE_PASSING": true,
   "CLEAR_PASSING_VALUE": "ALL",
   "INTERACT_ACTIONS": [

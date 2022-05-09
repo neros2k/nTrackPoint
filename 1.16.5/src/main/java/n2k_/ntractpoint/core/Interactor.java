@@ -3,6 +3,7 @@ import n2k_.ntractpoint.base.APresenter;
 import n2k_.ntractpoint.base.IEngine;
 import n2k_.ntractpoint.base.IInteractor;
 import n2k_.ntractpoint.base.model.ConfigModel;
+import n2k_.ntractpoint.core.presenter.CommandPresenter;
 import n2k_.ntractpoint.core.presenter.EventPresenter;
 import n2k_.ntractpoint.nTrackPoint;
 import org.bukkit.entity.Player;
@@ -21,6 +22,7 @@ public class Interactor implements IInteractor {
         this.ENGINE_MAP = new HashMap<>();
         this.PLUGIN = PLUGIN;
         this.PRESENTER_LIST.add(new EventPresenter(this));
+        this.PRESENTER_LIST.add(new CommandPresenter(this));
     }
     @Override
     public void init() {
@@ -31,7 +33,7 @@ public class Interactor implements IInteractor {
         if(!this.ENGINE_MAP.containsKey(PLAYER.getName())) {
             IEngine ENGINE = new Engine(PLAYER, this);
             ENGINE.init();
-            ENGINE.start();
+            if(!this.getModel().ONLY_COMMANDS) ENGINE.start();
             this.ENGINE_MAP.put(PLAYER.getName(), ENGINE);
         }
     }
@@ -39,7 +41,7 @@ public class Interactor implements IInteractor {
     public void unloadEngine(@NotNull Player PLAYER) {
         if(this.ENGINE_MAP.containsKey(PLAYER.getName())) {
             IEngine ENGINE = this.ENGINE_MAP.get(PLAYER.getName());
-            ENGINE.stop();
+            if(!ENGINE.isStarted()) ENGINE.stop();
             this.ENGINE_MAP.remove(PLAYER.getName());
         }
     }

@@ -44,7 +44,7 @@ public class Engine implements IEngine {
     public void start() {
         if(!this.STARTED) {
             this.TICK_TASK = Bukkit.getScheduler()
-                    .runTaskTimerAsynchronously(this.INTERACTOR.getPlugin(), this::tick, 0L, 1L);
+                    .runTaskTimerAsynchronously(this.INTERACTOR.getPlugin(), this::tick, 0L, 5L);
             this.STARTED = true;
         }
     }
@@ -69,6 +69,7 @@ public class Engine implements IEngine {
             double DISTANCE = POINT_LOCATION.distance(this.PLAYER.getLocation());
             if(!this.PASSING_LIST.contains(POINT_LOCATION)) {
                 if(DISTANCE < POINT.RADIUS) {
+                    PLAYER.sendMessage("TIMER");
                     this.ENTERED_POINT = POINT;
                     this.timerExecute(POINT_LOCATION);
                 } else this.cancelTimer(POINT);
@@ -76,7 +77,7 @@ public class Engine implements IEngine {
                     LAST_LEAST_DISTANCE.set(DISTANCE);
                     LEAST_POINT.set(POINT);
                 }
-            } else this.cancelTimer(POINT);
+            }
         });
         this.sendCompass(LEAST_POINT.get());
     }
@@ -94,6 +95,7 @@ public class Engine implements IEngine {
     @Override
     public void cancelTimer(PointModel POINT_MODEL) {
         if(this.ENTERED_POINT == POINT_MODEL) {
+            PLAYER.sendMessage("CANCEL");
             this.TIMER_BLOCK = false;
             this.ENTERED_POINT = null;
             if(this.TIMER_TASK != null) {
@@ -118,7 +120,9 @@ public class Engine implements IEngine {
                     }
                 }
             });
+            PLAYER.sendMessage("INTERACT");
             this.PASSING_LIST.add(POINT_LOCATION);
+            this.TIMER_BLOCK = false;
             boolean CLEAR;
             if(MODEL.CLEAR_PASSING_VALUE.equals("ALL")) {
                 CLEAR = this.PASSING_LIST.size() >= MODEL.DEFAULT_POINTS.length;
