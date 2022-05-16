@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
-public class Line implements ILine {
+public final class Line implements ILine {
     private final ConfigModel MODEL;
     private String LINE;
     public Line(@NotNull ConfigModel MODEL, String DISTANCE) {

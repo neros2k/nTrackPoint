@@ -6,7 +6,7 @@
   "ENABLE_PASSING": true,
   "CLEAR_PASSING_VALUE": "ALL",
   "INTERACT_ACTIONS": [
-    {"TYPE": "COMMAND", "CONTENT": "say Command from interaction"}
+    {"TYPE": "COMMAND", "CONTENT": "say Good work, {player}"}
   ],
   "BOSS_BAR_STYLE": "SEGMENTED_6",
   "BOSS_BAR_COLOR_DEFAULT": "BLUE",

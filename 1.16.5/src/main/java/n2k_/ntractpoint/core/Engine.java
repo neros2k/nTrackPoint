@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
-public class Engine implements IEngine {
+public final class Engine implements IEngine {
     private final List<Location> PASSING_LIST;
     private final Player PLAYER;
     private final IInteractor INTERACTOR;
@@ -113,14 +113,15 @@ public class Engine implements IEngine {
         ConfigModel MODEL = this.INTERACTOR.getModel();
         if(MODEL.ENABLE_PASSING) {
             Arrays.stream(MODEL.INTERACT_ACTIONS).forEach(ACTION -> {
+                String CONTENT = ACTION.CONTENT.replace("{player}", this.PLAYER.getName());
                 switch(ACTION.TYPE) {
                     case "COMMAND": {
                         Server SERVER = this.INTERACTOR.getPlugin().getServer();
-                        SERVER.dispatchCommand(SERVER.getConsoleSender(), ACTION.CONTENT);
+                        SERVER.dispatchCommand(SERVER.getConsoleSender(), CONTENT);
                         break;
                     }
                     case "MESSAGE": {
-                        this.PLAYER.sendMessage(ACTION.CONTENT);
+                        this.PLAYER.sendMessage(CONTENT);
                         break;
                     }
                 }

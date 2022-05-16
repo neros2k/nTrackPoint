@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-public class Interactor implements IInteractor {
+public final class Interactor implements IInteractor {
     private final List<APresenter> PRESENTER_LIST;
     private final Map<String, IEngine> ENGINE_MAP;
     private final JavaPlugin PLUGIN;
